@@ -11,8 +11,6 @@ class Screen(Observer):
         self.frequencyX.set(1)
         self.magnitudeY.set(1)
         self.frequencyY.set(1)
-        self.n=0
-        self.m=0
         self.parent=parent
         self.width=int(self.canvas.cget("width"))
         self.height=int(self.canvas.cget("height"))
@@ -24,14 +22,24 @@ class Screen(Observer):
         signal=model.get_signal()
         self.plot_signal(signal,model.get_color(),model.get_name())
 
-    def get_magnitude(self):
-        return self.magnitudeX
-    def get_frequency(self):
-        return self.frequencyX
-    def get_phase(self):
-        return self.phaseX
-    def set_magnitude(self,x):
-        self.magnitude.set(x)
+    def get_magnitude(self,name):
+        if name =="X" :
+            return self.magnitudeX
+        return self.magnitudeY
+    def get_frequency(self,name):
+        if name =="X" :
+            return self.frequencyX
+        return self.frequencyY
+    def get_phase(self,name):
+        if name =="X" :
+            return self.phaseX
+        return self.phaseY
+    def set_magnitude(self,x,name):
+        if name=="X" :
+            self.magnitudeX.set(x)
+        else :
+            self.magnitudeY.set(x)
+
     def set_frequency(self,x):
         self.frequency.set(x)
     def set_phase(self,x):

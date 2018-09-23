@@ -2,9 +2,9 @@ class Controller :
     def __init__(self,model,view):
         self.model=model
         self.view=view
-        self.view.get_magnitude().bind("<B1-Motion>",self.update_magnitude)
-        self.view.get_frequency().bind("<B1-Motion>",self.update_frequency)
-        self.view.get_phase().bind("<B1-Motion>",self.update_phase)
+        self.view.get_magnitude(model.get_name()).bind("<B1-Motion>",self.update_magnitude)
+        self.view.get_frequency(model.get_name()).bind("<B1-Motion>",self.update_frequency)
+        self.view.get_phase(model.get_name()).bind("<B1-Motion>",self.update_phase)
     def update_magnitude(self,event):
         print("update_magnitude")
         x=int(event.widget.get())
