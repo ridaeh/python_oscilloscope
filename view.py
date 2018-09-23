@@ -22,6 +22,7 @@ class Screen(Observer):
         signal=model.get_signal()
         self.plot_signal(signal,model.get_color(),model.get_name())
 
+
     def get_magnitude(self,name):
         if name =="X" :
             return self.magnitudeX

@@ -3,6 +3,7 @@ from tkFileDialog   import *
 from observer import *
 from generator import *
 from view import *
+from lissajou import *
 from controller import *
 import json
 import tkMessageBox
@@ -10,16 +11,20 @@ class Oscilloscope :
     def __init__(self,parent):
         self.parent=parent
         self.modelX=Generator(name="X")
-        self.modelY=Generator(name="Y",color="blue")
+        self.modelY=Generator(name="Y",color="green")
+        self.model_X_Y=Lissajou("X-Y",self.modelX.get_signal(),self.modelY.get_signal(),"blue")
         self.view=Screen(parent)
-        self.view.grid(4,4)
+        self.view.grid(8,8)
         self.view.update(self.modelX)
         self.modelX.attach(self.view)
         self.ctrl=Controller(self.modelX,self.view)
         self.view.update(self.modelY)
         self.modelY.attach(self.view)
         self.ctrlY=Controller(self.modelY,self.view)
-
+        self.view.update(self.model_X_Y)
+        self.model_X_Y.attach(self.view)
+        self.modelX.attach(self.model_X_Y)
+        self.modelY.attach(self.model_X_Y)
         self.view.packing()
         self.createMenu()
     def createMenu(self):
