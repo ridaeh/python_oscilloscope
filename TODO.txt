@@ -1,0 +1,81 @@
+Objectifs
+=========
+Realisation d'une IHM de simulation basee sur le modele MVC :
+
+ - d'oscilloscope (equation de mouvement vibratoire harmonique)
+
+En fin de TP, on adaptera cette IHM sur un autre modèle de données :
+ - d'evolution de population de proies-prédateurs (equations de Lotka-Volterra)
+
+Consignes
+=========
+
+1) Recuperer sur votre compte utilisateur ($HOME/....) dans un repertoire  :
+     - Dupond-Dupont-Oscilloscope
+si vos noms sont Dupond et Dupont, les fichiers  : 
+     - controller.py
+     - generator.py    
+     - observer.py
+     - oscilloscope.py
+     - utils_timebase.py
+     - view.py
+     - TODO.txt
+ 
+qui se trouvent sous /home/TP/modules/sujets/CAI/TkInter/Labos.
+
+2) A la fin de CHAQUE seance de labo (17:30 au plus tard)
+
+     - créer l'archive Dupond-Dupont-Oscilloscope.tgz en lançant la commande :
+         tar zcvf Dupond-Dupont-Oscilloscope.tgz Dupond-Dupont-Oscilloscope/
+     - deposer cette archive de version : 
+          cp Dupond-Dupont-Oscilloscope.tgz /home/TP/TPrendu/nedelec/CAI/TkInter
+
+3) Avant de deposer l'archive, VERIFIER qu'elle n'est pas vide et qu'elle contient les  fichiers :
+     - controller.py
+     - generator.py    
+     - observer.py
+     - oscilloscope.py
+     - utils_timebase.py
+     - view.py
+     - TODO.txt
+
+   en lançant la commande : tar ztvf Dupond-Dupont-Oscilloscope.tgz
+
+Premiere version : paramétrage d'un signal
+==========================================
+Affichage et contrôle d'un signal dans l'application (oscilloscope.py) :
+ 1) creer une grille de visualisation parametrable en (nxm) carreaux (view.py)
+ 2) calculer la courbe d'elongation (generator.py)
+ 3) afficher la courbe d'elongation (oscilloscope.py)
+ 4) contrôler, par des sliders, le signal en frequence, amplitude, phase  (controller.py)
+ 6) réagencer automatiquement les composants graphiques en cas de retaillage de la fenetre 
+ 7) configurer l'IHM (couleur,texte, positionnement des sliders ...) par un fichier d'options 
+
+
+Deuxieme version : sauvegarde, sortie, menu d'aide
+==================================================
+Sauvegarde du parametrage d'un signal :
+ 7) menu pour sauvegarder, charger des parametres de courbes
+      a) dans un nom de fichier par defaut
+      b) avec une boite de dialogue
+ 8) ajouter au menu un item pour la sortie d'application :
+      a) sans avertir l'utilisateur
+      b) avec boite de dialogue
+Menu d'aide :
+ 9) Boite d'information avec (Nom,Prénom, e-mail)  des concepteurs de l'application
+ 
+Troisieme version : deux signaux
+================================
+ 10) création d'un deuxième signal (Y)
+ 11) gestion des signaux en mode (X,Y, X-Y)
+ 
+Version finale : plusieurs vues, animation de spot
+==================================================
+13) visualiser les courbes dans une fenetre et la courbe de lissajou dans une autre
+14) animation du spot correspondant a une elongation
+
+Reutilisation
+=============
+15) Reprendre la même IHM en l'adaptant au modele de Lotka-Volterra
+
+
