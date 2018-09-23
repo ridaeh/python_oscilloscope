@@ -16,10 +16,13 @@ class Screen(Observer):
         self.parent=parent
         self.width=int(self.canvas.cget("width"))
         self.height=int(self.canvas.cget("height"))
+        self.models=[]
     def update(self,model):
+        if model not in self.models:
+            self.models.append(model)
         print("View update")
         signal=model.get_signal()
-        self.plot_signal(signal)
+        self.plot_signal(signal,model.get_color(),model.get_name())
 
     def get_magnitude(self):
         return self.magnitudeX
@@ -33,20 +36,19 @@ class Screen(Observer):
         self.frequency.set(x)
     def set_phase(self,x):
         self.phase.set(x)
-    def plot_signal(self,signal,color="red"):
-        self.signal=signal
+    def plot_signal(self,signal,color,name):
         w,h=self.canvas.winfo_width(),self.canvas.winfo_height()
         width,height=int(w),int(h)
-        print(self.canvas.find_withtag("signal"))
-        if self.canvas.find_withtag("signal") :
-            self.canvas.delete("signal")
+        print(self.canvas.find_withtag("signal"+name))
+        if self.canvas.find_withtag("signal"+name) :
+            self.canvas.delete("signal"+name)
         if signal and len(signal) > 1:
             plot = [(x*width, height/2.0*(y+1)) for (x, y) in signal]
-            signal_id = self.canvas.create_line(plot, fill=color, smooth=1, width=3,tags="signal")
+            signal_id = self.canvas.create_line(plot, fill=color, smooth=1, width=3,tags="signal"+name)
         return
 
     def packing(self) :
-        
+
         self.canvas.pack(fill="both", expand=1)
         self.magnitudeX.grid(row=0,column=0)
         self.frequencyX.grid(row=1,column=0)
@@ -55,7 +57,7 @@ class Screen(Observer):
         self.frequencyY.grid(row=1,column=1)
         self.phaseY.grid(row=2,column=1)
         self.frame.pack(fill="both")
- 
+
     def grid(self,n,m):
         self.n=n
         self.m=m
@@ -71,10 +73,12 @@ class Screen(Observer):
             self.canvas.create_line(0,y,self.width,y,tags="line")
     def resize(self,event):
         self.canvas.delete("line")
-        #self.canvas.scale("all",0,0,float(event.width)/float(self.width),float(event.height)/self.height)    
-        self.canvas.delete("signal")
+        #self.canvas.scale("all",0,0,float(event.width)/float(self.width),float(event.height)/self.height)
         self.grid(self.n,self.m)
-        self.plot_signal(self.signal)
+        for model in self.models :
+            self.plot_signal(model.get_signal(),
+                model.get_color(),
+                model.get_name())
     def createOptionsFrame(self,parent):
         self.frame = Frame(parent)
         self.magnitudeY=Scale(self.frame,length=250,orient="horizontal",
@@ -101,4 +105,3 @@ class Screen(Observer):
                          label="X Phase", sliderlength=20,
                          showvalue=0,from_=-180,to=180,
                          tickinterval=90)
-                              

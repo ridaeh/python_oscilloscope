@@ -9,12 +9,17 @@ import tkMessageBox
 class Oscilloscope :
     def __init__(self,parent):
         self.parent=parent
-        self.model=Generator()
+        self.modelX=Generator(name="X")
+        self.modelY=Generator(name="Y",color="blue")
         self.view=Screen(parent)
         self.view.grid(4,4)
-        self.view.update(self.model)
-        self.model.attach(self.view)
-        self.ctrl=Controller(self.model,self.view)
+        self.view.update(self.modelX)
+        self.modelX.attach(self.view)
+        self.ctrl=Controller(self.modelX,self.view)
+        self.view.update(self.modelY)
+        self.modelY.attach(self.view)
+        self.ctrlY=Controller(self.modelY,self.view)
+
         self.view.packing()
         self.createMenu()
     def createMenu(self):
