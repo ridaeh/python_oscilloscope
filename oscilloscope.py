@@ -10,6 +10,7 @@ import tkMessageBox
 class Oscilloscope :
     def __init__(self,parent):
         self.parent=parent
+        self.parent.protocol("WM_DELETE_WINDOW", self.exit)
         self.modelX=Generator(name="X")
         self.modelY=Generator(name="Y",color="green")
         self.model_X_Y=Lissajou("X-Y",self.modelX.get_signal(),self.modelY.get_signal(),"blue")
@@ -80,6 +81,9 @@ class Oscilloscope :
     def quite(self):
         answer=tkMessageBox.askokcancel("Exit","are you sure you want to exit?")
         if answer  :
+            self.parent.destroy()
+    def exit(self) :
+        if tkMessageBox.askyesno("Exit","are you sure you want to exit?"):
             self.parent.destroy()
 
 if  __name__ == "__main__" :

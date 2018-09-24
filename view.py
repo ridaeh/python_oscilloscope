@@ -52,7 +52,11 @@ class Screen(Observer):
         if self.canvas.find_withtag("signal"+name) :
             self.canvas.delete("signal"+name)
         if signal and len(signal) > 1:
-            plot = [(x*width, height/2.0*(y+1)) for (x, y) in signal]
+            if name=="X-Y" :
+                plot = [((x+2)*width/4, (2*y/self.m+1)*height/2) for (x, y) in signal]
+            else :
+                plot = [(x*width, y*height/self.m + height/2) for (x, y) in signal]
+
             signal_id = self.canvas.create_line(plot, fill=color, smooth=1, width=3,tags="signal"+name)
         return
 
@@ -72,6 +76,8 @@ class Screen(Observer):
         self.m=m
         w,h=self.canvas.winfo_width(),self.canvas.winfo_height()
         self.width,self.height=int(w),int(h)
+#        self.canvas.create_line(0,self.height/2.0,self.width,self.height/2.0,arrow="last",tags="line")
+#        self.canvas.create_line(self.width/2.0,self.height,self.width/2.0,0,arrow="last",tags="line")
         step1=self.width/n
         for t in range(1,n):
             x =t*step1
@@ -82,7 +88,6 @@ class Screen(Observer):
             self.canvas.create_line(0,y,self.width,y,tags="line")
     def resize(self,event):
         self.canvas.delete("line")
-        #self.canvas.scale("all",0,0,float(event.width)/float(self.width),float(event.height)/self.height)
         self.grid(self.n,self.m)
         for model in self.models :
             self.plot_signal(model.get_signal(),
