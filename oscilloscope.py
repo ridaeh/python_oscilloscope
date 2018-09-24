@@ -11,8 +11,8 @@ class Oscilloscope :
     def __init__(self,parent):
         self.parent=parent
         self.parent.protocol("WM_DELETE_WINDOW", self.exit)
-        self.modelX=Generator(name="X")
-        self.modelY=Generator(name="Y",color="green")
+        self.modelX=Generator(name="X",color="red",a=0.0,f=1.0)
+        self.modelY=Generator(name="Y",color="green",a=0.0,f=1.0)
         self.model_X_Y=Lissajou("X-Y",self.modelX.get_signal(),self.modelY.get_signal(),"blue")
         self.view=Screen(parent)
         self.view.grid(8,8)
@@ -34,7 +34,7 @@ class Oscilloscope :
         filemenu.add_command(label="Open",command=self.openFile)
         filemenu.add_command(label="Save",command=self.saveFile)
         filemenu.add_separator()
-        filemenu.add_command(label="Exit",command=self.quite)
+        filemenu.add_command(label="Exit",command=self.exit)
 
         helpMenu = Menu(menubar, tearoff=0)
         helpMenu.add_command(label="about us",command=self.aboutUs)
@@ -78,10 +78,6 @@ class Oscilloscope :
 
     def aboutUs(self):
         tkMessageBox.showinfo("About US","This software is created by BreuhTeam company.\nDevelopers :\n - HAMDANI RIDAE")
-    def quite(self):
-        answer=tkMessageBox.askokcancel("Exit","are you sure you want to exit?")
-        if answer  :
-            self.parent.destroy()
     def exit(self) :
         if tkMessageBox.askyesno("Exit","are you sure you want to exit?"):
             self.parent.destroy()

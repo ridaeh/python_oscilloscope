@@ -1,4 +1,4 @@
-from Tkinter import Canvas,Scale,Menu,Frame
+from Tkinter import Canvas,Scale,Menu,Frame,Entry,Label
 from observer import *
 
 class Screen(Observer):
@@ -7,9 +7,7 @@ class Screen(Observer):
         print("parent",parent.cget("width"),parent.cget("height"))
         self.createOptionsFrame(parent)
         parent.bind("<Configure>", self.resize)
-        self.magnitudeX.set(1)
         self.frequencyX.set(1)
-        self.magnitudeY.set(1)
         self.frequencyY.set(1)
         self.parent=parent
         self.width=int(self.canvas.cget("width"))
@@ -63,12 +61,21 @@ class Screen(Observer):
     def packing(self) :
 
         self.canvas.pack(fill="both", expand=1)
-        self.magnitudeX.grid(row=0,column=0)
-        self.frequencyX.grid(row=1,column=0)
-        self.phaseX.grid(row=2,column=0)
-        self.magnitudeY.grid(row=0,column=1)
-        self.frequencyY.grid(row=1,column=1)
-        self.phaseY.grid(row=2,column=1)
+        for i in range(0,6):
+            self.frame.columnconfigure(i, weight=1)
+        Canvas(self.frame,bg='red',width=10,height=10).grid(row=0,column=0,sticky="e")
+        Label(self.frame,text="X",  justify='left').grid(row=0,column=1,sticky="w")
+        Canvas(self.frame,bg='green',width=10,height=10).grid(row=0,column=2,sticky="e")
+        Label(self.frame,text="Y",  justify='left').grid(row=0,column=3,sticky="w")
+        Canvas(self.frame,bg='blue',width=10,height=10).grid(row=0,column=4,sticky="e")
+        Label(self.frame,text="X-Y", justify='left').grid(row=0,column=5,sticky="w")
+        self.magnitudeX.grid(row=1,column=0,sticky='nsew',columnspan=3)
+        self.frequencyX.grid(row=2,column=0,sticky='nsew',columnspan=3)
+        self.phaseX.grid(row=3,column=0,sticky='nsew',columnspan=3)
+        self.magnitudeY.grid(row=1,column=3,sticky='nsew',columnspan=3)
+        self.frequencyY.grid(row=2,column=3,sticky='nsew',columnspan=3)
+        self.phaseY.grid(row=3,column=3,sticky='nsew',columnspan=3)
+
         self.frame.pack(fill="both")
 
     def grid(self,n,m):
@@ -76,8 +83,8 @@ class Screen(Observer):
         self.m=m
         w,h=self.canvas.winfo_width(),self.canvas.winfo_height()
         self.width,self.height=int(w),int(h)
-#        self.canvas.create_line(0,self.height/2.0,self.width,self.height/2.0,arrow="last",tags="line")
-#        self.canvas.create_line(self.width/2.0,self.height,self.width/2.0,0,arrow="last",tags="line")
+        self.canvas.create_line(0,self.height/2.0,self.width-4,self.height/2,arrow="last",tags="line",fill="blue")
+        self.canvas.create_line(5,self.height,4,5,arrow="last",tags="line",fill="blue")
         step1=self.width/n
         for t in range(1,n):
             x =t*step1
@@ -95,6 +102,7 @@ class Screen(Observer):
                 model.get_name())
     def createOptionsFrame(self,parent):
         self.frame = Frame(parent)
+
         self.magnitudeY=Scale(self.frame,length=250,orient="horizontal",
                          label="Y Magnitude", sliderlength=20,
                          showvalue=0,from_=0,to=4,
