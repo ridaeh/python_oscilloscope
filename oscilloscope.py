@@ -123,6 +123,7 @@ class Oscilloscope :
             self.createLissajouTK()
 
 if  __name__ == "__main__" :
+    
     root=Tk()
     root.geometry("+300+100")
     oscillo=Oscilloscope(root)
