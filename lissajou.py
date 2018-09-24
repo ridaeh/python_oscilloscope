@@ -18,16 +18,7 @@ class Lissajou(Subject):
         i=0
         for i in range(0, len(self.signalX)):
                 self.signal.append((self.signalX[i][1], self.signalY[i][1]))
-                """
-        for t in range(0,samples,5):
-            (tx,ex)=self.signalX[i]
-            (ty,ey)=self.signalY[i]
-            print(ex,ey)
-            i+=1
-            e=ex-ey
-            self.signal.append((ex,ey))
-#            self.signal.append((t*1.0/samples,e))
-"""
+
         self.notify()
     def get_signal(self):
         return self.signal
