@@ -3,18 +3,29 @@ from tkFileDialog   import *
 from observer import *
 from generator import *
 from view import *
+from lissajou import *
 from controller import *
 import json
 import tkMessageBox
 class Oscilloscope :
     def __init__(self,parent):
         self.parent=parent
-        self.model=Generator()
+        self.parent.protocol("WM_DELETE_WINDOW", self.exit)
+        self.modelX=Generator(name="X",color="red",a=0.0,f=1.0)
+        self.modelY=Generator(name="Y",color="green",a=0.0,f=1.0)
+        self.model_X_Y=Lissajou("X-Y",self.modelX.get_signal(),self.modelY.get_signal(),"blue")
         self.view=Screen(parent)
-        self.view.grid(4,4)
-        self.view.update(self.model)
-        self.model.attach(self.view)
-        self.ctrl=Controller(self.model,self.view)
+        self.view.grid(8,8)
+        self.view.update(self.modelX)
+        self.modelX.attach(self.view)
+        self.ctrl=Controller(self.modelX,self.view)
+        self.view.update(self.modelY)
+        self.modelY.attach(self.view)
+        self.ctrlY=Controller(self.modelY,self.view)
+        self.view.update(self.model_X_Y)
+        self.model_X_Y.attach(self.view)
+        self.modelX.attach(self.model_X_Y)
+        self.modelY.attach(self.model_X_Y)
         self.view.packing()
         self.createMenu()
     def createMenu(self):
@@ -23,7 +34,7 @@ class Oscilloscope :
         filemenu.add_command(label="Open",command=self.openFile)
         filemenu.add_command(label="Save",command=self.saveFile)
         filemenu.add_separator()
-        filemenu.add_command(label="Exit",command=self.quite)
+        filemenu.add_command(label="Exit",command=self.exit)
 
         helpMenu = Menu(menubar, tearoff=0)
         helpMenu.add_command(label="about us",command=self.aboutUs)
@@ -67,9 +78,8 @@ class Oscilloscope :
 
     def aboutUs(self):
         tkMessageBox.showinfo("About US","This software is created by BreuhTeam company.\nDevelopers :\n - HAMDANI RIDAE")
-    def quite(self):
-        answer=tkMessageBox.askokcancel("Exit","are you sure you want to exit?")
-        if answer  :
+    def exit(self) :
+        if tkMessageBox.askyesno("Exit","are you sure you want to exit?"):
             self.parent.destroy()
 
 if  __name__ == "__main__" :
